@@ -1,0 +1,33 @@
+baseURL = "https://carlosvaz.com/"
+defaultContentLanguage = "en"
+theme = "hugo-bearcub"
+enableRobotsTXT = true
+# Copyright year is dynamic via layouts/partials/footer.html
+
+[markup]
+  [markup.highlight]
+    # false uses CSS classes for syntax highlighting (more accessible);
+    # true uses inline styles. See https://web.dev/color-and-contrast-accessibility/
+    noClasses = true
+
+  [markup.goldmark.renderer]
+    unsafe = true # ox-hugo
+
+[languages]
+  [languages.en]
+    title = "Carlos Vaz"
+    languageCode = "en-US"
+    contentDir = "content"
+
+[params]
+  description = "Carlos Vaz's personal blog on NixOS, infrastructure, and hardware projects."
+  dateFormat = "2006-01-02"
+  favicon = "favicon.svg"
+  generateSocialCard = false
+
+  # Set after adding the site in Umami. Empty disables the tracking snippet.
+  umamiWebsiteId = ""
+
+  [params.author]
+    name = "Carlos Vaz"
+    email = "carlos@carjorvaz.com"

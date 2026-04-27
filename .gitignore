@@ -1,0 +1,12 @@
+public/
+resources/
+.hugo_build.lock
+.direnv/
+result
+.DS_Store
+
+content-org/drafts.org
+content-org/*.org.bak
+content/drafts/
+content/posts/*.md
+content/_index.md
