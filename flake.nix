@@ -115,21 +115,19 @@
           deploy = pkgs.writeShellScriptBin "deploy" ''
             set -euo pipefail
             SITE_DIR="${siteDir}"
+            DEPLOY_TARGET="''${CARLOSVAZ_DEPLOY_TARGET:-root@vaz.one:/var/www/carlosvaz.com/}"
+            BUILD_OUT_LINK="''${CARLOSVAZ_BUILD_OUT_LINK:-$SITE_DIR/result}"
+            RSYNC_ARGS=()
 
-            echo ":: Cleaning generated content..."
-            ${cleanGenerated}
+            if [ -n "''${CARLOSVAZ_DEPLOY_RSYNC_RSH:-}" ]; then
+              RSYNC_ARGS+=(-e "$CARLOSVAZ_DEPLOY_RSYNC_RSH")
+            fi
 
-            echo ":: Exporting org → markdown..."
-            ${exportPublished}
-
-            echo ":: Building site..."
-            ${pkgs.hugo}/bin/hugo --source "$SITE_DIR" --cleanDestinationDir
+            echo ":: Building site with Nix..."
+            ${pkgs.nix}/bin/nix build "$SITE_DIR#site" --out-link "$BUILD_OUT_LINK"
 
             echo ":: Deploying to VPS..."
-            ${pkgs.rsync}/bin/rsync -Pacvz --delete --chmod=D755,F644 "$SITE_DIR/public/" root@vaz.one:/var/www/carlosvaz.com/
-
-            echo ":: Cleaning up build artifacts..."
-            ${cleanGenerated}
+            ${pkgs.rsync}/bin/rsync -Pacvz --delete --chmod=D755,F644 "''${RSYNC_ARGS[@]}" "$BUILD_OUT_LINK/" "$DEPLOY_TARGET"
 
             echo ":: Done!"
           '';
@@ -197,16 +195,19 @@
             clean = {
               type = "app";
               program = "${clean}/bin/clean";
+              meta.description = "Remove generated Hugo and ox-hugo artifacts.";
             };
 
             deploy = {
               type = "app";
               program = "${deploy}/bin/deploy";
+              meta.description = "Build the site and deploy it with rsync.";
             };
 
             serve = {
               type = "app";
               program = "${serve}/bin/serve";
+              meta.description = "Serve the site locally with draft content and org export watching.";
             };
           };
 

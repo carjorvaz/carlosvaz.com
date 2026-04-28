@@ -3,6 +3,7 @@ resources/
 .hugo_build.lock
 .direnv/
 result
+site-artifact/
 .DS_Store
 
 content-org/drafts.org

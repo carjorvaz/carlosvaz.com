@@ -1,3 +1,12 @@
+<link rel="canonical" href="{{ .Permalink }}">
+
 {{ with .Site.Params.umamiWebsiteId }}
-<script defer src="https://umami.carjorvaz.com/beacon.js" data-website-id="{{ . }}"></script>
+<script
+  defer
+  src="https://umami.carjorvaz.com/beacon.js"
+  data-website-id="{{ . }}"
+  data-domains="carlosvaz.com,www.carlosvaz.com"
+  data-do-not-track="true"
+  data-exclude-search="true"
+  data-exclude-hash="true"></script>
 {{ end }}

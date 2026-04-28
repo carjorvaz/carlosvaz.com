@@ -1,0 +1,51 @@
+{{ $metaTitle := .Title }}
+{{ if .IsHome }}
+  {{ $metaTitle = .Site.Title }}
+{{ end }}
+
+{{ $metaDescription := .Site.Params.description }}
+{{ if not .IsHome }}
+  {{ with .Description }}
+    {{ $metaDescription = . }}
+  {{ else }}
+    {{ if .IsPage }}
+      {{ $metaDescription = .Summary }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $metaDescription = $metaDescription | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 160 }}
+
+{{ $author := .Site.Params.author.name }}
+{{ with .Params.author }}
+  {{ $author = . }}
+{{ end }}
+
+<!-- Primary Meta Tags -->
+<meta name="title" content="{{ $metaTitle }}" />
+<meta name="description" content="{{ $metaDescription }}" />
+{{ with $author }}<meta name="author" content="{{ . }}" />{{ end }}
+{{ with .Params.tags }}<meta name="keywords" content="{{ delimit . "," }}" />{{ end }}
+
+<!-- Only generate social card if: -->
+<!--   - generateSocialCard = true -->
+<!--   - there aren't images set in frontmatter -->
+<!--   - page is of .Kind "page" -->
+{{ if and (and (default false .Site.Params.generateSocialCard) (not (isset .Params "images"))) (eq .Kind "page") }}
+  {{ partial "social_card.html" . }}
+{{ else }}
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="{{ $metaTitle }}" />
+  <meta property="og:description" content="{{ $metaDescription }}" />
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:site_name" content="{{ .Site.Title }}" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ $metaTitle }}" />
+  <meta name="twitter:description" content="{{ $metaDescription }}" />
+
+  <!-- Microdata -->
+  <meta itemprop="name" content="{{ $metaTitle }}">
+  <meta itemprop="description" content="{{ $metaDescription }}">
+{{ end }}

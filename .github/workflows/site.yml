@@ -1,0 +1,83 @@
+name: Site
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Check flake
+        run: nix flake check --no-write-lock-file
+
+      - name: Build site
+        run: nix build .#site --out-link site-result
+
+      - name: Prepare artifact
+        run: |
+          mkdir -p site-artifact
+          cp -aL site-result/. site-artifact/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: carlosvaz.com
+          path: site-artifact/
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to VPS
+    needs: build
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          test -n "$DEPLOY_SSH_KEY"
+          test -n "$DEPLOY_KNOWN_HOSTS"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          CARLOSVAZ_DEPLOY_RSYNC_RSH: ssh -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts
+          CARLOSVAZ_DEPLOY_TARGET: ${{ secrets.DEPLOY_TARGET }}
+        run: |
+          test -n "$CARLOSVAZ_DEPLOY_TARGET"
+          nix run .#deploy
