@@ -14,6 +14,8 @@
 :PROPERTIES:
 :EXPORT_FILE_NAME: nixos-on-raspberry-pi-4-with-uefi-and-zfs
 :EXPORT_DATE: 2022-05-10
+:EXPORT_HUGO_TAGS: nixos raspberry-pi zfs uefi homelab
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Install NixOS on a Raspberry Pi 4 with UEFI boot and ZFS storage, from firmware setup through partitioning and system configuration."
 :END:
 
 After spending some time with [[https://osmc.tv/][OSMC]] on my Raspberry Pi 4, I've been meaning to install NixOS on it as it has been my distribution of choice on all my other systems.
@@ -134,6 +136,8 @@ It turns out that I accidentally ended up building an ARM system which is aligne
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-headscale-on-nixos
 :EXPORT_DATE: 2022-12-11
+:EXPORT_HUGO_TAGS: nixos headscale tailscale vpn self-hosting
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Set up Headscale on NixOS as a self-hosted Tailscale control server, including the service configuration and client enrollment workflow."
 :END:
 
 I've recently bought a used USFF computer at a good price, inspired by the [[https://www.servethehome.com/introducing-project-tinyminimicro-home-lab-revolution/][TinyMiniMicro project]].
@@ -293,6 +297,8 @@ I'll need to setup the DNS-01 challenge which will allow me to use wildcard cert
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-wildcard-lets-encrypt-certificates-on-nixos
 :EXPORT_DATE: 2022-12-26
+:EXPORT_HUGO_TAGS: nixos lets-encrypt acme ovh nginx
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Configure wildcard Let's Encrypt certificates on NixOS with DNS-01 validation, OVH API credentials, and reusable nginx certificate wiring."
 :END:
 After setting up an Headscale server in order to have a mesh-VPN for my devices, I was now able to set up self-hosted services on my home server and access them anywhere in the world.
 
@@ -406,6 +412,8 @@ This way, you'll avoid having a public list of all the private services you've s
 :PROPERTIES:
 :EXPORT_FILE_NAME: installing-nixos-with-root-on-tmpfs-and-encrypted-zfs-on-a-netcup-vps
 :EXPORT_DATE: 2023-01-10
+:EXPORT_HUGO_TAGS: nixos zfs impermanence vps netcup
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Install NixOS on a netcup VPS with root on tmpfs, encrypted ZFS, impermanence, static networking, and remote SSH unlocking."
 :END:
 I've recently ordered a netcup VPS.
 Before, I had a Kimsufi server and although it had 2TB of storage for roughly 7€ per month, I found it too expensive and too slow for my needs.
@@ -752,6 +760,8 @@ Hopefully, following this post will make it easier.
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-a-wordpress-website-on-nixos
 :EXPORT_DATE: 2023-08-01
+:EXPORT_HUGO_TAGS: nixos wordpress nginx php self-hosting
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Host a WordPress site declaratively on NixOS with nginx, PHP-FPM, database setup, backups, and TLS managed from system configuration."
 :END:
 
 Another instance where NixOS makes it easy to self-host services, this time we're setting up WordPress using the upstream nixpkgs module and some auxiliary functions to help us package themes and plugins.
@@ -860,6 +870,8 @@ Nonetheless, about one third of the Web are WordPress websites and it's useful t
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-plausible-analytics-on-nixos
 :EXPORT_DATE: 2023-08-03
+:EXPORT_HUGO_TAGS: nixos plausible analytics postgresql self-hosting
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Run Plausible Analytics on NixOS with PostgreSQL, ClickHouse, nginx, TLS, and declarative service configuration for privacy-friendly analytics."
 :END:
 
 I've been looking to set up analytics on my blog and maybe some other websites.
@@ -972,6 +984,8 @@ If you wish to work around your readers' adblockers, this also seems to be possi
 :PROPERTIES:
 :EXPORT_FILE_NAME: the-holy-grail-nextcloud-setup-made-easy-by-nixos
 :EXPORT_DATE: 2023-08-05
+:EXPORT_HUGO_TAGS: nixos nextcloud self-hosting postgresql nginx
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Build a clean Nextcloud deployment on NixOS with nginx, PostgreSQL, Redis, OnlyOffice, backups, and declarative service management."
 :END:
 
 Nextcloud really is the central piece to most people's self-hosted infrastructure.
@@ -1076,6 +1090,8 @@ In the future, I look forward to being able to use Collabora/Nextcloud Office in
 :PROPERTIES:
 :EXPORT_FILE_NAME: rootless-podman-and-docker-compose-on-nixos
 :EXPORT_DATE: 2023-08-06
+:EXPORT_HUGO_TAGS: nixos podman docker-compose containers self-hosting
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Use rootless Podman and Docker Compose on NixOS, including user services, socket setup, podman-compose, and Docker compatibility notes."
 :END:
 
 At my university's Computer Science and Engineering department, we want to allow students to use containers in the lab computers while not giving them root priviliges, as running Docker usually requires.
@@ -1159,6 +1175,8 @@ More importantly, students can now easily run services like Nginx and PostgreSQL
 :PROPERTIES:
 :EXPORT_FILE_NAME: ipxe-booting-with-nixos
 :EXPORT_DATE: 2023-08-07
+:EXPORT_HUGO_TAGS: nixos ipxe pxe networking homelab
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Serve iPXE network boots from NixOS, with DHCP, TFTP, HTTP boot assets, and reusable configuration for installing machines over the LAN."
 :END:
 
 When you only manage a few systems, it is usually enough to install NixOS on them using a live installer on a USB drive.
@@ -1331,6 +1349,8 @@ I'm still looking to experiment with [[https://meshcentral.com][MeshCentral]] to
 :PROPERTIES:
 :EXPORT_FILE_NAME: us-international-with-altgr-dead-keys-on-macos
 :EXPORT_DATE: 2024-02-26
+:EXPORT_HUGO_TAGS: macos keyboard altgr input productivity
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Configure the US International keyboard layout with AltGr dead keys on macOS for practical accents, symbols, and multilingual typing."
 :END:
 
 I've recently started using a MacBook Air M1 2020 as my main laptop.
@@ -1357,6 +1377,8 @@ Here's the [[https://github.com/carjorvaz/macos-us-altgr-intl][repo with the fil
 :PROPERTIES:
 :EXPORT_FILE_NAME: exponential-logarithmic-adjustment-scales-for-audio-and-brightness-in-linux
 :EXPORT_DATE: 2024-04-28
+:EXPORT_HUGO_TAGS: linux audio brightness scripting desktop
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Use exponential and logarithmic adjustment scales for smoother audio volume and backlight brightness controls on Linux desktops."
 :END:
 
 In my Human-Machine Interfaces course at university, I learned that humans many times perceive changes better in exponential increments as opposed to linear increments.
@@ -1395,6 +1417,8 @@ light -T 1.618";
 :PROPERTIES:
 :EXPORT_FILE_NAME: declarative-macos-management-with-nix-darwin-and-home-manager
 :EXPORT_DATE: 2024-05-05
+:EXPORT_HUGO_TAGS: nix-darwin home-manager macos nix homebrew
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Manage macOS declaratively with nix-darwin and home-manager, including Homebrew packages, system defaults, and a simple flake setup."
 :END:
 
 For the past year, I've been daily driving the M1 Macbook Air with 8GB of RAM and 240GB of storage.
@@ -1673,6 +1697,8 @@ Bottom line is that despite Apple arguably running a hardware upgrade pricing sc
 :PROPERTIES:
 :EXPORT_FILE_NAME: running-llms-locally-with-llama-cpp-and-open-webui-on-macos-or-linux
 :EXPORT_DATE: 2025-03-08
+:EXPORT_HUGO_TAGS: llm llama-cpp open-webui docker macos
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Run local LLMs with llama.cpp and Open WebUI on macOS or Linux, using Colima, Docker, model downloads, and a practical chat UI."
 :END:
 
 Running DeepSeek and other LLMs locally has become very trendy recently.
@@ -1774,6 +1800,8 @@ Finally, I'd like to check out tools like aider and tabby for local code assista
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-samba-shares-on-nixos-with-support-for-macos-time-machine-backups
 :EXPORT_DATE: 2025-04-21
+:EXPORT_HUGO_TAGS: nixos samba time-machine macos backups
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Configure Samba shares on NixOS for macOS Time Machine backups, with declarative users, shares, permissions, and service settings."
 :END:
 
 I've been wanting to set up proper backups for my Mac for quite some time now.

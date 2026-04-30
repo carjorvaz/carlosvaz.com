@@ -4,6 +4,11 @@ theme = "hugo-bearcub"
 enableRobotsTXT = true
 # Copyright year is dynamic via layouts/partials/footer.html
 
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
 [markup]
   [markup.highlight]
     # false uses CSS classes for syntax highlighting (more accessible);
@@ -20,7 +25,7 @@ enableRobotsTXT = true
     contentDir = "content"
 
 [params]
-  description = "Carlos Vaz's personal blog on NixOS, infrastructure, and hardware projects."
+  description = "Personal blog by Carlos Vaz on NixOS, infrastructure, and hardware projects."
   dateFormat = "2006-01-02"
   favicon = "favicon.svg"
   generateSocialCard = true

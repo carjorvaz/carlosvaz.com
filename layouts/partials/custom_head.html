@@ -1,5 +1,46 @@
 <link rel="canonical" href="{{ .Permalink }}">
 
+{{- $description := .Site.Params.description -}}
+{{- if .IsPage -}}
+  {{- with .Description -}}
+    {{- $description = . -}}
+  {{- else -}}
+    {{- with .Summary -}}
+      {{- $description = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $description = $description | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 200 -}}
+{{- $authorName := .Site.Params.author.name | default .Site.Title -}}
+{{- $author := dict "@type" "Person" "name" $authorName -}}
+
+{{ if .IsPage }}
+{{- $schema := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" $description
+  "datePublished" (.Date.Format "2006-01-02")
+  "dateModified" (.Lastmod.Format "2006-01-02")
+  "author" $author
+  "publisher" $author
+  "mainEntityOfPage" .Permalink
+  "url" .Permalink
+  "keywords" (delimit .Params.tags ", ")
+-}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{ else if .IsHome }}
+{{- $schema := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" .Site.Title
+  "url" .Site.BaseURL
+  "description" $description
+  "author" $author
+-}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{ end }}
+
 {{ with .Site.Params.umamiWebsiteId }}
 <script
   defer
