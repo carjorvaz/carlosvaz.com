@@ -9,6 +9,9 @@ The canonical source is this repository. `public/`, `resources/`, and exported
 Markdown under `content/` are generated artifacts and should not be edited by
 hand.
 
+The Bear Cub theme is pinned by `flake.lock`; no Git submodules are needed for
+builds or local preview.
+
 ## Workflow
 
 Preview locally:
@@ -39,10 +42,15 @@ CARLOSVAZ_DEPLOY_TARGET=user@example.com:/srv/http/carlosvaz.com/ nix run .#depl
 Keep source edits in `content-org/`, `layouts/`, `assets/`, `static/`,
 `hugo.toml`, and the flake.
 
+`content-org/drafts.org` is intentionally ignored. `nix run .#serve` includes it
+for local preview when present, but production builds use only
+`content-org/all-posts.org`.
+
 ## CI
 
-GitHub Actions builds the site with Nix on pushes and pull requests. A manual
-`workflow_dispatch` deploy is included for the VPS; configure these repository
+GitHub Actions builds the site with Nix on pushes and pull requests, then stores
+the generated static site as an artifact. A manual `workflow_dispatch` deploy
+publishes that already-built artifact to the VPS; configure these repository
 secrets before using it:
 
 - `DEPLOY_SSH_KEY`: private key allowed to write the web root.

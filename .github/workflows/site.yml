@@ -18,9 +18,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install Nix
         uses: cachix/install-nix-action@v31
@@ -45,22 +48,21 @@ jobs:
           name: carlosvaz.com
           path: site-artifact/
           if-no-files-found: error
+          retention-days: 14
 
   deploy:
     name: Deploy to VPS
     needs: build
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Install Nix
-        uses: cachix/install-nix-action@v31
+      - name: Download built site
+        uses: actions/download-artifact@v8
         with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+          name: carlosvaz.com
+          path: site-artifact
 
       - name: Configure SSH
         env:
@@ -76,8 +78,9 @@ jobs:
 
       - name: Deploy
         env:
-          CARLOSVAZ_DEPLOY_RSYNC_RSH: ssh -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts
-          CARLOSVAZ_DEPLOY_TARGET: ${{ secrets.DEPLOY_TARGET }}
+          DEPLOY_TARGET: ${{ secrets.DEPLOY_TARGET }}
         run: |
-          test -n "$CARLOSVAZ_DEPLOY_TARGET"
-          nix run .#deploy
+          test -n "$DEPLOY_TARGET"
+          rsync -Pacvz --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts" \
+            site-artifact/ "$DEPLOY_TARGET"

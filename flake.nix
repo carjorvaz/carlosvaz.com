@@ -10,7 +10,11 @@
   };
 
   outputs =
-    { self, nixpkgs, hugo-bearcub }:
+    {
+      self,
+      nixpkgs,
+      hugo-bearcub,
+    }:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -34,11 +38,7 @@
               let
                 root = toString ./.;
                 pathString = toString path;
-                rel =
-                  if pathString == root then
-                    ""
-                  else
-                    lib.removePrefix "${root}/" pathString;
+                rel = if pathString == root then "" else lib.removePrefix "${root}/" pathString;
                 excludedDirs = [
                   ".direnv"
                   ".git"
@@ -46,6 +46,7 @@
                   "content/posts"
                   "public"
                   "resources"
+                  "themes"
                 ];
                 excludedFiles = [
                   ".DS_Store"
@@ -53,17 +54,18 @@
                   "content/_index.md"
                   "content-org/drafts.org"
                   "result"
-                  "themes/hugo-bearcub/.git"
                 ];
               in
-              !(lib.elem rel excludedFiles
+              !(
+                lib.elem rel excludedFiles
                 || lib.any (dir: rel == dir || lib.hasPrefix "${dir}/" rel) excludedDirs
-                || lib.hasSuffix ".org.bak" rel);
+                || lib.hasSuffix ".org.bak" rel
+              );
           };
 
-          emacsWithOxHugo =
-            (pkgs.emacsPackagesFor pkgs.emacs-nox).emacsWithPackages
-              (epkgs: [ epkgs.ox-hugo ]);
+          emacsWithOxHugo = (pkgs.emacsPackagesFor pkgs.emacs-nox).emacsWithPackages (epkgs: [
+            epkgs.ox-hugo
+          ]);
 
           exportOrgFile = file: ''
             ${emacsWithOxHugo}/bin/emacs --batch \
@@ -98,10 +100,8 @@
               chmod -R u+w source
               cd source
 
-              rm -rf themes/hugo-bearcub
               mkdir -p themes
-              cp -R ${hugo-bearcub} themes/hugo-bearcub
-              chmod -R u+w themes/hugo-bearcub
+              ln -s ${hugo-bearcub} themes/hugo-bearcub
 
               SITE_DIR=$PWD
               ${cleanGenerated}
@@ -143,6 +143,8 @@
           serve = pkgs.writeShellScriptBin "serve" ''
             set -euo pipefail
             SITE_DIR="${siteDir}"
+            THEME_DIR="$(${pkgs.coreutils}/bin/mktemp -d)"
+            WATCHER_PID=""
 
             export_all() {
               ${cleanGenerated}
@@ -151,6 +153,20 @@
                 ${exportOrgFile "$SITE_DIR/content-org/drafts.org"}
               fi
             }
+
+            cleanup() {
+              if [ -n "$WATCHER_PID" ]; then
+                kill "$WATCHER_PID" 2>/dev/null || true
+                wait "$WATCHER_PID" 2>/dev/null || true
+              fi
+              ${pkgs.coreutils}/bin/rm -rf "$THEME_DIR"
+              echo ""
+              echo ":: Cleaning up generated content..."
+              ${cleanGenerated}
+            }
+            trap cleanup EXIT INT TERM
+
+            ${pkgs.coreutils}/bin/ln -s ${hugo-bearcub} "$THEME_DIR/hugo-bearcub"
 
             echo ":: Exporting org → markdown..."
             export_all
@@ -166,18 +182,9 @@
             ) &
             WATCHER_PID=$!
 
-            cleanup() {
-              kill "$WATCHER_PID" 2>/dev/null || true
-              wait "$WATCHER_PID" 2>/dev/null || true
-              echo ""
-              echo ":: Cleaning up generated content..."
-              ${cleanGenerated}
-            }
-            trap cleanup EXIT INT TERM
-
             echo ":: Starting hugo server (http://localhost:1313)..."
             echo ":: Watching content-org/ for changes..."
-            ${pkgs.hugo}/bin/hugo server --source "$SITE_DIR" --buildDrafts
+            ${pkgs.hugo}/bin/hugo server --source "$SITE_DIR" --themesDir "$THEME_DIR" --buildDrafts
           '';
         in
         {

@@ -1,5 +1,6 @@
 public/
 resources/
+themes/
 .hugo_build.lock
 .direnv/
 result

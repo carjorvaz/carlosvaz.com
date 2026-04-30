@@ -26,8 +26,10 @@
   "publisher" $author
   "mainEntityOfPage" .Permalink
   "url" .Permalink
-  "keywords" (delimit .Params.tags ", ")
 -}}
+{{- with .Params.tags -}}
+  {{- $schema = merge $schema (dict "keywords" (delimit . ", ")) -}}
+{{- end -}}
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{ else if .IsHome }}
 {{- $schema := dict
