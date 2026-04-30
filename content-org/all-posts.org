@@ -20,7 +20,7 @@
 
 After spending some time with [[https://osmc.tv/][OSMC]] on my Raspberry Pi 4, I've been meaning to install NixOS on it as it has been my distribution of choice on all my other systems.
 
-Installing "vanilla" NixOS on the Pi isn't too difficult, just follow the [[https://nixos.wiki/wiki/NixOS_on_ARM#SD_card_images_.28SBCs_and_similar_platforms.29][installation steps on the wiki]]: download the SD card image, decompress it, flash the image to the SD card and you're good to go.
+Installing "vanilla" NixOS on the Pi isn't too difficult, just follow the [[https://wiki.nixos.org/wiki/NixOS_on_ARM#SD_card_images_.28SBCs_and_similar_platforms.29][installation steps on the wiki]]: download the SD card image, decompress it, flash the image to the SD card and you're good to go.
 
 However, it gets more complicated when you try to go off the beaten path, such as when trying to do full-disk encryption or using filesystems other than ext4.
 
@@ -121,15 +121,15 @@ I should also note that setting up encryption and remote unlocking is not very d
 
 After setting this up, a friend of mine pointed me to the following links:
 + [[https://discourse.nixos.org/t/planning-for-a-better-nixos-on-arm/15346][Planning for a better NixOS on ARM]]
-+ [[https://nixos.wiki/wiki/NixOS_on_ARM/UEFI][NixOS on ARM/UEFI]]
++ [[https://wiki.nixos.org/wiki/NixOS_on_ARM/UEFI][NixOS on ARM/UEFI]]
 
 It turns out that I accidentally ended up building an ARM system which is aligned with the NixOS ARM lead's view for NixOS ARM systems in the future, which I find amusing.
 ** References
 + https://mgdm.net/weblog/nixos-on-raspberry-pi-4
-+ https://nixos.wiki/wiki/NixOS_on_ARM
-+ https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_4
++ https://wiki.nixos.org/wiki/NixOS_on_ARM
++ https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_4
 + https://elis.nu/blog/2019/08/encrypted-zfs-mirror-with-mirrored-boot-on-nixos/
-+ https://nixos.wiki/wiki/ZFS
++ https://wiki.nixos.org/wiki/ZFS
 + https://nixos.org/manual/nixos/stable/index.html#sec-installation
 
 * Setting up Headscale on NixOS
@@ -176,7 +176,7 @@ Excellent, Headscale is also well integrated with NixOS and I could basically ha
 
 ** Installing Headscale on NixOS
 I couldn't find any post showing me how to setup a Headscale server on NixOS.
-I only managed to find [[https://git.sr.ht/~misterio/nix-config/tree/main/item/hosts/electra/services/headscale.nix][another person's configuration]].
+I only managed to find [[https://github.com/Misterio77/nix-config/blob/main/hosts/alcyone/services/headscale.nix][another person's configuration]].
 Turns out, it wasn't that hard.
 All that was needed was to activate the Headscale service as set the relevant options:
 

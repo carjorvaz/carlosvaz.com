@@ -37,9 +37,15 @@
   )) }}
 {{ end }}
 
-{{ $date := .Date.Format (default "2006-01-02" .Site.Params.dateFormat) }}
-{{ $author := (default $.Site.Params.author.name ($.Param "author")) }}
-{{ $byline := (printf "%s | %s" $author $date) }}
+{{ $author := .Site.Params.author.name | default .Site.Title }}
+{{ with .Params.author }}
+  {{ $author = . }}
+{{ end }}
+{{ $byline := $author }}
+{{ if .IsPage }}
+  {{ $date := .Date.Format (default "2006-01-02" .Site.Params.dateFormat) }}
+  {{ $byline = printf "%s | %s" $author $date }}
+{{ end }}
 
 {{ $fg = $fg.Filter (images.Text $byline (dict
   "font" $font

@@ -29,8 +29,7 @@
 <!-- Only generate social card if: -->
 <!--   - generateSocialCard = true -->
 <!--   - there aren't images set in frontmatter -->
-<!--   - page is of .Kind "page" -->
-{{ if and (and (default false .Site.Params.generateSocialCard) (not (isset .Params "images"))) (eq .Kind "page") }}
+{{ if and (default false .Site.Params.generateSocialCard) (not (isset .Params "images")) }}
   {{ partial "social_card.html" . }}
 {{ else }}
   <!-- Open Graph / Facebook -->
