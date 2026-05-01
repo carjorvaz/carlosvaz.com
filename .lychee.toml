@@ -1,0 +1,19 @@
+max_redirects = 10
+max_retries = 2
+retry_wait_time = 2
+timeout = 20
+format = "compact"
+user_agent = "Mozilla/5.0 (compatible; carlosvaz.com link checker)"
+
+fallback_extensions = ["html"]
+index_files = ["index.html"]
+
+# These sites are useful reader links, but are known to reject or throttle
+# automated link checkers.
+exclude = [
+  "^https://(www\\.)?linkedin\\.com/",
+  "^http://host\\.docker\\.internal(:[0-9]+)?/",
+  "^https://chrisdown\\.name/2018/01/02/in-defence-of-swap\\.html$",
+  "^https://www\\.raspberrypi\\.com/",
+  "^https://((old|www)\\.)?reddit\\.com/",
+]

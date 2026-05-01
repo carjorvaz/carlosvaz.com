@@ -132,6 +132,22 @@
             echo ":: Done!"
           '';
 
+          linkCheck = pkgs.writeShellScriptBin "link-check" ''
+            set -euo pipefail
+            SITE_DIR="${siteDir}"
+            BUILD_OUT_LINK="''${CARLOSVAZ_BUILD_OUT_LINK:-$SITE_DIR/result}"
+
+            echo ":: Building site with Nix..."
+            ${pkgs.nix}/bin/nix build "$SITE_DIR#site" --out-link "$BUILD_OUT_LINK"
+
+            echo ":: Checking links..."
+            ${pkgs.lychee}/bin/lychee \
+              --config "$SITE_DIR/.lychee.toml" \
+              --root-dir "$BUILD_OUT_LINK" \
+              --no-progress \
+              "$BUILD_OUT_LINK"
+          '';
+
           clean = pkgs.writeShellScriptBin "clean" ''
             set -euo pipefail
             SITE_DIR="${siteDir}"
@@ -193,6 +209,7 @@
               pkgs.hugo
               emacsWithOxHugo
               clean
+              linkCheck
               deploy
               serve
             ];
@@ -211,6 +228,12 @@
               meta.description = "Build the site and deploy it with rsync.";
             };
 
+            link-check = {
+              type = "app";
+              program = "${linkCheck}/bin/link-check";
+              meta.description = "Build the site and check generated links with Lychee.";
+            };
+
             serve = {
               type = "app";
               program = "${serve}/bin/serve";
@@ -223,6 +246,7 @@
             site = site;
             clean = clean;
             deploy = deploy;
+            link-check = linkCheck;
             serve = serve;
           };
 

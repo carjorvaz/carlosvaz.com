@@ -210,7 +210,7 @@ in {
 /2024/04/27 Update/: A reader pointed out that the option =serverUrl= is now =server_url=, and that the error wasn't too obvious. It's now updated above.
 
 And it just worked.
-I should note that the option =proxyWebsockets= is need according to the [[https://github.com/juanfont/headscale/blob/main/docs/reverse-proxy.md#websockets][docs]].
+I should note that the option =proxyWebsockets= is need according to the [[https://headscale.net/development/ref/integration/reverse-proxy/#websockets][docs]].
 
 All that's left is to create our first namespace, to which we'll our nodes later on:
 
@@ -268,7 +268,7 @@ ping node1.headnet.example.com
 #+end_src
 
 ** Using the Tailscale Android client on GrapheneOS
-Setting up Tailscale on Android is also supposed to be quite straightforward, especially because Tailscale added a way to use external servers, allowing Headscale users to use the same client ([[https://github.com/juanfont/headscale/blob/main/docs/android-client.md#connecting-an-android-client][link]]).
+Setting up Tailscale on Android is also supposed to be quite straightforward, especially because Tailscale added a way to use external servers, allowing Headscale users to use the same client ([[https://headscale.net/development/usage/connect/android/#connect-via-web-authentication][link]]).
 
 However, every time I tapped the "Save and Restart" button, the app would crash immediately.
 When I restarted it, the sign-in button kept redirecting me to Tailscale's login page, which led me to believe it didn't actually configure the app to use my Headscale server.
@@ -756,7 +756,7 @@ Hopefully, following this post will make it easier.
 ** References
 + https://elis.nu/blog/2019/08/encrypted-zfs-mirror-with-mirrored-boot-on-nixos/
 + https://elis.nu/blog/2020/05/nixos-tmpfs-as-root
-+ https://nixos.wiki/wiki/ZFS
++ https://wiki.nixos.org/wiki/ZFS
 * Setting up a WordPress website on NixOS
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-a-wordpress-website-on-nixos
@@ -857,7 +857,7 @@ Thanks to the Nix store's properties of immutability and restricted permissions,
 Once again, NixOS made setting up another self-hosted service very easy.
 
 This post will help you set up a basic WordPress instance, you're then free to install more plugins and to optimize the website further.
-There are some suggestions on the relevant [[https://nixos.wiki/wiki/Wordpress#Tips_and_tricks][NixOS Wiki page]].
+There are some suggestions on the relevant [[https://wiki.nixos.org/wiki/WordPress#Tips_and_tricks][NixOS Wiki page]].
 
 Although I felt I learned something with this experience, I still prefer using simple Static Site Generators like [[https://gohugo.io][Hugo]] for my personal projects.
 Using Hugo along with [[https://ox-hugo.scripter.co][ox-hugo]] allows me to have a website that's quite "declarative", configured with plain text files, where I can do easy version control and deploy anywhere, many times for free.
@@ -866,7 +866,7 @@ It also produces very fast sites without much effort, many times being close to 
 Nonetheless, about one third of the Web are WordPress websites and it's useful to know how to set them up and configure them on NixOS.
 
 ** References
-+ https://nixos.wiki/wiki/Wordpress
++ https://wiki.nixos.org/wiki/WordPress
 * Setting up Plausible Analytics on NixOS
 :PROPERTIES:
 :EXPORT_FILE_NAME: setting-up-plausible-analytics-on-nixos
@@ -1083,8 +1083,8 @@ Having all of these apps running on Nextcloud has enabled me to move on from GSu
 In the future, I look forward to being able to use Collabora/Nextcloud Office instead of OnlyOffice, as it's more aligned with Nextcloud's philosophical goals and hasn't done [[https://help.nextcloud.com/t/onlyoffice-removed-web-mobile-editing-from-version-5-5-0-of-community-document-server/74360][suspicious decisions in the past]].
 
 ** References
-+ https://nixos.wiki/wiki/Nextcloud
-+ https://nixos.wiki/wiki/Onlyoffice-Documentserver
++ https://wiki.nixos.org/wiki/Nextcloud
++ https://wiki.nixos.org/wiki/Onlyoffice-Documentserver
 + https://docs.nextcloud.com/server/latest/admin_manual/maintenance/backup.html
 + https://docs.nextcloud.com/server/latest/admin_manual/maintenance/restore.html
 * Rootless Podman and Docker-Compose on NixOS
@@ -1171,7 +1171,7 @@ More importantly, students can now easily run services like Nginx and PostgreSQL
 ** References
 + https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md
 + https://major.io/p/rootless-container-management-with-docker-compose-and-podman/
-+ https://nixos.wiki/wiki/Podman
++ https://wiki.nixos.org/wiki/Podman
 * iPXE booting with NixOS
 :PROPERTIES:
 :EXPORT_FILE_NAME: ipxe-booting-with-nixos
@@ -1345,7 +1345,7 @@ Although I believe it would still be technically possible to remotely configure 
 I'm still looking to experiment with [[https://meshcentral.com][MeshCentral]] to explore these lower level AMT capibilities, and that may become a future blog post.
 ** References
 + https://github.com/danderson/netboot/tree/main/pixiecore
-+ https://nixos.wiki/wiki/Netboot
++ https://wiki.nixos.org/wiki/Netboot
 * US International (with AltGr dead-keys) on macOS
 :PROPERTIES:
 :EXPORT_FILE_NAME: us-international-with-altgr-dead-keys-on-macos
@@ -1405,7 +1405,7 @@ pactl set-sink-volume @DEFAULT_SINK@ -2dB'";
 
 ** Backlight brightness
 As for backlight, I've had this behaviour for a few years and can't recall where I originally found it.
-The trick is to use a program for managing the backlight brightness that can take multipliers as arguments, like [[https://haikarainen.github.io/light/][light]].
+The trick is to use a program for managing the backlight brightness that can take multipliers as arguments, like [[https://www.mankier.com/1/light][light]].
 
 Again, I mapped the =XF86MonBrightnessDown= and =XF86MonBrightnessUp= keys to:
 #+begin_src
@@ -1795,7 +1795,7 @@ Finally, I'd like to check out tools like aider and tabby for local code assista
 
 ** References
 + https://docs.openwebui.com/
-+ https://docs.openwebui.com/tutorials/integrations/deepseekr1-dynamic/#step-5-connect-llamacpp-to-open-webui
++ https://docs.openwebui.com/tutorials/integrations/llm-providers/deepseekr1-dynamic/#step-5-connect-llamacpp-to-open-webui
 + https://unsloth.ai/blog/deepseekr1-dynamic#running%20r1
 + https://reddit.com/r/localllama
 + https://github.com/ggml-org/llama.cpp

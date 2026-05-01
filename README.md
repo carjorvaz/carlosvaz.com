@@ -26,6 +26,12 @@ Build the production site:
 nix build .#site
 ```
 
+Check links in the generated site:
+
+```sh
+nix run .#link-check
+```
+
 Deploy to the VPS:
 
 ```sh
@@ -52,6 +58,9 @@ GitHub Actions builds the site with Nix on pushes and pull requests, then stores
 the generated static site as an artifact. A manual `workflow_dispatch` deploy
 publishes that already-built artifact to the VPS; configure these repository
 secrets before using it:
+
+A separate `Links` workflow runs Lychee on a weekly schedule and can be triggered
+manually when link-checking external URLs.
 
 - `DEPLOY_SSH_KEY`: private key allowed to write the web root.
 - `DEPLOY_KNOWN_HOSTS`: pinned SSH host key line for the VPS.
