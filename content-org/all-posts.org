@@ -408,9 +408,10 @@ This way, you'll avoid having a public list of all the private services you've s
 + https://discourse.nixos.org/t/setup-a-wildcard-certificate-with-acme-on-a-custom-domain-name-hosted-by-powerdns/15055
 + https://go-acme.github.io/lego/dns/ovh/
 + https://yunohost.org/en/providers/registrar/ovh/autodns
-* Installing NixOS with root on tmpfs and encrypted ZFS on a netcup VPS
+* NixOS on a netcup VPS with tmpfs root and encrypted ZFS
 :PROPERTIES:
-:EXPORT_FILE_NAME: installing-nixos-with-root-on-tmpfs-and-encrypted-zfs-on-a-netcup-vps
+:EXPORT_FILE_NAME: nixos-on-a-netcup-vps-with-tmpfs-root-and-encrypted-zfs
+:EXPORT_HUGO_ALIASES: /posts/installing-nixos-with-root-on-tmpfs-and-encrypted-zfs-on-a-netcup-vps/
 :EXPORT_DATE: 2023-01-10
 :EXPORT_HUGO_TAGS: nixos zfs impermanence vps netcup
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Install NixOS on a netcup VPS with root on tmpfs, encrypted ZFS, impermanence, static networking, and remote SSH unlocking."
@@ -1373,9 +1374,10 @@ However, this version was missing some dead-key layers.
 So I took this last one as a base and added the dead key layers from osx-us-altgr-intl and it's working quite well.
 
 Here's the [[https://github.com/carjorvaz/macos-us-altgr-intl][repo with the file]] so others don't have to go through this as well.
-* Exponential/logarithmic adjustment scales for audio and brightness in Linux
+* Logarithmic audio and brightness controls on Linux
 :PROPERTIES:
-:EXPORT_FILE_NAME: exponential-logarithmic-adjustment-scales-for-audio-and-brightness-in-linux
+:EXPORT_FILE_NAME: logarithmic-audio-and-brightness-controls-on-linux
+:EXPORT_HUGO_ALIASES: /posts/exponential-logarithmic-adjustment-scales-for-audio-and-brightness-in-linux/
 :EXPORT_DATE: 2024-04-28
 :EXPORT_HUGO_TAGS: linux audio brightness scripting desktop
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Use exponential and logarithmic adjustment scales for smoother audio volume and backlight brightness controls on Linux desktops."
@@ -1693,9 +1695,10 @@ Bottom line is that despite Apple arguably running a hardware upgrade pricing sc
 - https://gist.github.com/jmatsushita/5c50ef14b4b96cb24ae5268dab613050
 - https://github.com/LnL7/nix-darwin
 - https://daiderd.com/nix-darwin/manual/index.html#sec-options
-* Running LLMs locally with llama.cpp and Open WebUI on macOS or Linux
+* Local LLMs with llama.cpp and Open WebUI
 :PROPERTIES:
-:EXPORT_FILE_NAME: running-llms-locally-with-llama-cpp-and-open-webui-on-macos-or-linux
+:EXPORT_FILE_NAME: local-llms-with-llama-cpp-and-open-webui
+:EXPORT_HUGO_ALIASES: /posts/running-llms-locally-with-llama-cpp-and-open-webui-on-macos-or-linux/
 :EXPORT_DATE: 2025-03-08
 :EXPORT_HUGO_TAGS: llm llama-cpp open-webui docker macos
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Run local LLMs with llama.cpp and Open WebUI on macOS or Linux, using Colima, Docker, model downloads, and a practical chat UI."
@@ -1796,9 +1799,10 @@ Finally, I'd like to check out tools like aider and tabby for local code assista
 + https://unsloth.ai/blog/deepseekr1-dynamic#running%20r1
 + https://reddit.com/r/localllama
 + https://github.com/ggml-org/llama.cpp
-* Setting up Samba shares on NixOS (with support for macOS Time Machine backups)
+* NixOS Samba shares for macOS Time Machine
 :PROPERTIES:
-:EXPORT_FILE_NAME: setting-up-samba-shares-on-nixos-with-support-for-macos-time-machine-backups
+:EXPORT_FILE_NAME: nixos-samba-shares-for-macos-time-machine
+:EXPORT_HUGO_ALIASES: /posts/setting-up-samba-shares-on-nixos-with-support-for-macos-time-machine-backups/
 :EXPORT_DATE: 2025-04-21
 :EXPORT_HUGO_TAGS: nixos samba time-machine macos backups
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description "Configure Samba shares on NixOS for macOS Time Machine backups, with declarative users, shares, permissions, and service settings."
