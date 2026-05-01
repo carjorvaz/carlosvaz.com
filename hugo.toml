@@ -26,6 +26,7 @@ enableRobotsTXT = true
 
 [params]
   description = "Personal blog by Carlos Vaz on NixOS, infrastructure, and hardware projects."
+  tagline = "NixOS, infrastructure, and hardware projects."
   dateFormat = "2006-01-02"
   favicon = "favicon.svg"
   generateSocialCard = true

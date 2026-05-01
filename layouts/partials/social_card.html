@@ -3,6 +3,10 @@
 {{ $fg := resources.Get "images/social_card_fg.png" }}
 {{ $bg := resources.Get "images/social_card_bg.png" }}
 {{ $description := .Site.Params.description }}
+{{ $title := .Title }}
+{{ if .IsHome }}
+  {{ $title = .Site.Title }}
+{{ end }}
 
 {{ with .Description }}
   {{ $description = . }}
@@ -17,8 +21,8 @@
   {{ errorf "missing social card font: assets/fonts/FiraMono-Bold.ttf" }}
 {{ end }}
 
-{{ if gt (len .Title) 45 }}
-  {{ $fg = $fg.Filter (images.Text .Title (dict
+{{ if gt (len $title) 45 }}
+  {{ $fg = $fg.Filter (images.Text $title (dict
     "font" $font
     "color" "#fafafa"
     "size" 95
@@ -27,7 +31,7 @@
     "y" 0
   )) }}
 {{ else }}
-  {{ $fg = $fg.Filter (images.Text .Title (dict
+  {{ $fg = $fg.Filter (images.Text $title (dict
     "font" $font
     "color" "#fafafa"
     "size" 130
@@ -41,30 +45,39 @@
 {{ with .Params.author }}
   {{ $author = . }}
 {{ end }}
-{{ $byline := $author }}
+{{ $byline := .Site.Params.tagline | default $description }}
+{{ $bylineSize := 36 }}
+{{ $bylineSpacing := 18 }}
 {{ if .IsPage }}
   {{ $date := .Date.Format (default "2006-01-02" .Site.Params.dateFormat) }}
   {{ $byline = printf "%s | %s" $author $date }}
+  {{ $bylineSize = 60 }}
+  {{ $bylineSpacing = 30 }}
 {{ end }}
 
 {{ $fg = $fg.Filter (images.Text $byline (dict
   "font" $font
   "color" "#898a8d"
-  "size" 60
-  "linespacing" 30
+  "size" $bylineSize
+  "linespacing" $bylineSpacing
   "x" 0
   "y" 425
 )) }}
 
 {{ $card := $bg.Filter (images.Overlay $fg 112 140) }}
-{{ $card := $card.Resize "900x webp q100" }}
+{{ $card := $card.Resize "1200x png" }}
+{{ $cardAlt := printf "%s | %s" $title .Site.Title }}
 
 <!-- Open Graph / Facebook -->
-<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:title" content="{{ $title }}" />
 <meta property="og:description" content="{{ $description }}" />
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
 <meta property="og:image" content="{{ $card.Permalink | absURL }}" />
+<meta property="og:image:width" content="{{ $card.Width }}" />
+<meta property="og:image:height" content="{{ $card.Height }}" />
+<meta property="og:image:type" content="{{ $card.MediaType.Type }}" />
+<meta property="og:image:alt" content="{{ $cardAlt }}" />
 
 {{- if .IsPage }}
 {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
@@ -100,7 +113,8 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="{{ $card.Permalink | absURL }}" />
-<meta name="twitter:title" content="{{ .Title }}" />
+<meta name="twitter:image:alt" content="{{ $cardAlt }}" />
+<meta name="twitter:title" content="{{ $title }}" />
 <meta name="twitter:description" content="{{ $description }}" />
 
 {{- with site.Params.social }}
@@ -116,7 +130,7 @@
 {{- end }}
 
 <!-- Microdata -->
-<meta itemprop="name" content="{{ .Title }}">
+<meta itemprop="name" content="{{ $title }}">
 <meta itemprop="description" content="{{ $description }}">
 
 {{- if .IsPage -}}
