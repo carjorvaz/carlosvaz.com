@@ -37,3 +37,8 @@ enableRobotsTXT = true
   [params.author]
     name = "Carlos Vaz"
     email = "carlos@carjorvaz.com"
+    url = "https://carlosvaz.com/"
+    sameAs = [
+      "https://github.com/carjorvaz",
+      "https://www.linkedin.com/in/carjorvaz",
+    ]

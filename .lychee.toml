@@ -16,4 +16,5 @@ exclude = [
   "^https://chrisdown\\.name/2018/01/02/in-defence-of-swap\\.html$",
   "^https://www\\.raspberrypi\\.com/",
   "^https://((old|www)\\.)?reddit\\.com/",
+  "^https://crt\\.sh/?$",
 ]

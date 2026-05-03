@@ -13,6 +13,12 @@
 {{- $description = $description | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 200 -}}
 {{- $authorName := .Site.Params.author.name | default .Site.Title -}}
 {{- $author := dict "@type" "Person" "name" $authorName -}}
+{{- with .Site.Params.author.url -}}
+  {{- $author = merge $author (dict "url" .) -}}
+{{- end -}}
+{{- with .Site.Params.author.sameAs -}}
+  {{- $author = merge $author (dict "sameAs" .) -}}
+{{- end -}}
 
 {{ if .IsPage }}
 {{- $schema := dict
