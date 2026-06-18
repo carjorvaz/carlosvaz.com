@@ -2,20 +2,11 @@
 {{ $font := resources.Get "fonts/FiraMono-Bold.ttf" }}
 {{ $fg := resources.Get "images/social_card_fg.png" }}
 {{ $bg := resources.Get "images/social_card_bg.png" }}
-{{ $description := .Site.Params.description }}
+{{ $description := partial "seo_description.html" . }}
 {{ $title := .Title }}
 {{ if .IsHome }}
   {{ $title = .Site.Title }}
 {{ end }}
-
-{{ with .Description }}
-  {{ $description = . }}
-{{ else }}
-  {{ if .IsPage }}
-    {{ $description = .Summary }}
-  {{ end }}
-{{ end }}
-{{ $description = $description | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 200 }}
 
 {{ if not $font }}
   {{ errorf "missing social card font: assets/fonts/FiraMono-Bold.ttf" }}

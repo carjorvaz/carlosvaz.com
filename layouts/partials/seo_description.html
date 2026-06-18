@@ -1,0 +1,12 @@
+{{- $description := .Site.Params.description -}}
+{{- if .IsPage -}}
+  {{- with .Description -}}
+    {{- $description = . -}}
+  {{- else -}}
+    {{- with .Summary -}}
+      {{- $description = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $description = $description | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 160 -}}
+{{- return $description -}}

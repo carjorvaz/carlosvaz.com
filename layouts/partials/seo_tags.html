@@ -3,17 +3,7 @@
   {{ $metaTitle = .Site.Title }}
 {{ end }}
 
-{{ $metaDescription := .Site.Params.description }}
-{{ if not .IsHome }}
-  {{ with .Description }}
-    {{ $metaDescription = . }}
-  {{ else }}
-    {{ if .IsPage }}
-      {{ $metaDescription = .Summary }}
-    {{ end }}
-  {{ end }}
-{{ end }}
-{{ $metaDescription = $metaDescription | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 160 }}
+{{ $metaDescription := partial "seo_description.html" . }}
 
 {{ $author := .Site.Params.author.name }}
 {{ with .Params.author }}
@@ -32,19 +22,45 @@
 {{ if and (default false .Site.Params.generateSocialCard) (not (isset .Params "images")) }}
   {{ partial "social_card.html" . }}
 {{ else }}
+  {{ $iso8601 := "2006-01-02T15:04:05-07:00" }}
   <!-- Open Graph / Facebook -->
   <meta property="og:title" content="{{ $metaTitle }}" />
   <meta property="og:description" content="{{ $metaDescription }}" />
   <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
   <meta property="og:site_name" content="{{ .Site.Title }}" />
+  {{- with .Params.images }}
+    {{- range . }}
+  <meta property="og:image" content="{{ . | absURL }}" />
+  <meta property="og:image:alt" content="{{ $metaTitle }}" />
+    {{- end }}
+  {{- end }}
+  {{ if .IsPage }}
+  <meta property="article:section" content="{{ .Section }}" />
+  {{ with .PublishDate }}<meta property="article:published_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+  {{ with .Lastmod }}<meta property="article:modified_time" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+  {{ end }}
 
   <!-- Twitter -->
+  {{- with .Params.images }}
+    {{- $firstImage := index . 0 }}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="{{ $firstImage | absURL }}" />
+  <meta name="twitter:image:alt" content="{{ $metaTitle }}" />
+  {{- else }}
   <meta name="twitter:card" content="summary" />
+  {{- end }}
   <meta name="twitter:title" content="{{ $metaTitle }}" />
   <meta name="twitter:description" content="{{ $metaDescription }}" />
 
   <!-- Microdata -->
   <meta itemprop="name" content="{{ $metaTitle }}">
   <meta itemprop="description" content="{{ $metaDescription }}">
+  {{ if .IsPage }}
+  {{ with .PublishDate }}<meta itemprop="datePublished" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+  {{ with .Lastmod }}<meta itemprop="dateModified" {{ .Format $iso8601 | printf "content=%q" | safeHTMLAttr }} />{{ end }}
+  <meta itemprop="wordCount" content="{{ .WordCount }}">
+  {{ with .Params.images }}<meta itemprop="image" content="{{ index . 0 | absURL }}" />{{ end }}
+  <meta itemprop="keywords" content="{{ range $index, $tag := .Params.tags }}{{ $tag }},{{ end }}" />
+  {{ end }}
 {{ end }}

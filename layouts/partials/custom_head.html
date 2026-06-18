@@ -1,16 +1,9 @@
 <link rel="canonical" href="{{ .Permalink }}">
-
-{{- $description := .Site.Params.description -}}
-{{- if .IsPage -}}
-  {{- with .Description -}}
-    {{- $description = . -}}
-  {{- else -}}
-    {{- with .Summary -}}
-      {{- $description = . -}}
-    {{- end -}}
-  {{- end -}}
+{{- if not (.Page.Store.Get "hasCodeBlock") -}}
+  {{ $syntax := resources.Get "syntax.css" | minify }}
+  <link href="{{ $syntax.RelPermalink }}" rel="stylesheet">
 {{- end -}}
-{{- $description = $description | plainify | htmlUnescape | replaceRE "\\s+" " " | truncate 200 -}}
+{{- $description := partial "seo_description.html" . -}}
 {{- $authorName := .Site.Params.author.name | default .Site.Title -}}
 {{- $author := dict "@type" "Person" "name" $authorName -}}
 {{- with .Site.Params.author.url -}}
@@ -52,7 +45,7 @@
 {{ with .Site.Params.umamiWebsiteId }}
 <script
   defer
-  src="https://umami.carjorvaz.com/beacon.js"
+  src="/beacon.js"
   data-website-id="{{ . }}"
   data-domains="carlosvaz.com,www.carlosvaz.com"
   data-do-not-track="true"

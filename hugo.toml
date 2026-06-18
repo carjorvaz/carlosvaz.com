@@ -13,7 +13,7 @@ enableRobotsTXT = true
   [markup.highlight]
     # false uses CSS classes for syntax highlighting (more accessible);
     # true uses inline styles. See https://web.dev/color-and-contrast-accessibility/
-    noClasses = true
+    noClasses = false
 
   [markup.goldmark.renderer]
     unsafe = true # ox-hugo
