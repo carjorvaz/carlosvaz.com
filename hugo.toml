@@ -25,8 +25,8 @@ enableRobotsTXT = true
     contentDir = "content"
 
 [params]
-  description = "Personal blog by Carlos Vaz on NixOS, infrastructure, and hardware projects."
-  tagline = "NixOS, infrastructure, and hardware projects."
+  description = "Blog by Carlos Vaz."
+  tagline = "Carlos Vaz"
   dateFormat = "2006-01-02"
   favicon = "favicon.svg"
   generateSocialCard = true
