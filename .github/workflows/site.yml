@@ -50,6 +50,88 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  lighthouse:
+    name: Lighthouse
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download built site
+        uses: actions/download-artifact@v8
+        with:
+          name: carlosvaz.com
+          path: site-artifact
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Setup Chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v2
+
+      - name: Prepare local Lighthouse target
+        run: |
+          node -e "require('fs').writeFileSync('site-artifact/beacon.js', '/* CI Lighthouse stub: production proxies this path to Umami. */\n')"
+
+      - name: Run Lighthouse
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          npx --yes serve@14 site-artifact --listen 4173 &
+          server_pid=$!
+          cleanup() { kill "$server_pid"; }
+          trap cleanup EXIT
+
+          ready=0
+          for _ in {1..30}; do
+            if node -e "fetch('http://127.0.0.1:4173/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = 1
+
+          npx --yes lighthouse@12.8.2 \
+            http://127.0.0.1:4173/ \
+            --preset=desktop \
+            --chrome-flags="--headless=new --no-sandbox" \
+            --output=json \
+            --output-path=lighthouse-report.json
+
+      - name: Assert Lighthouse 100s
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('lighthouse-report.json', 'utf8'));
+          const scores = Object.fromEntries(
+            Object.entries(report.categories).map(([key, category]) => [
+              key,
+              Math.round(category.score * 100),
+            ]),
+          );
+
+          console.log(scores);
+
+          const expected = ['performance', 'accessibility', 'best-practices', 'seo'];
+          const failures = expected.filter((key) => scores[key] !== 100);
+          if (failures.length > 0) {
+            console.error(`Expected Lighthouse 100s, got failures: ${failures.join(', ')}`);
+            process.exit(1);
+          }
+          NODE
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: lighthouse-report.json
+          if-no-files-found: error
+          retention-days: 14
+
   deploy:
     name: Deploy to VPS
     needs: build
